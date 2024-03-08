@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "Socket_ZIF")(type "KiCad")(uri "${KIPRJMOD}/Socket_ZIF.kicad_sym")(options "")(descr ""))
+)
