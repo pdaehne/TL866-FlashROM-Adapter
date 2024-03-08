@@ -10,6 +10,11 @@ replace 29C400/29C800/29C160 EPROMs on retro machines like the Amiga.
 > Besides this adapter, you also need the SN001-01 adapter which came with your
 > TL866 or which is sold separately.
 
+> [!WARNING]
+> I use this adapter with my TL866 II plus. I do not know if it works with the
+> older TL866 A or CS, but it probably does. It does __not__ work with the newer
+> Xgecu T48 aka TL866-3G or the Xgecu T56 programmers.
+
 ## Ordering the PCB
 
 The subdirectory "gerber-files" contains a Zip file you can use to order the PCB
@@ -22,9 +27,11 @@ page.
 
 * __1x ZIF Socket 48 Pins 2.54mm pitch__
 
-* __2x 2x13 Female Pin Header Through Hole Straight Angle 2.54mm pitch__
+* __2x 2x12 Female Pin Header Through Hole Straight Angle 2.54mm pitch__
 
 * __1x 2x3 Male Pin Header Through Hole Straight Angle 2.54mm pitch__
+
+* Dupont Jumper cables depending on your type of Flash ROM.
 
 ### Soldering the ZIF Socket
 
@@ -41,8 +48,8 @@ the socket from the bottom side.
 ### Soldering the Connection to the SN001-1 Adapter
 
 Next, solder the two 2x12 pin headers to the underside of the PCB which connect
-the PCB to the SN001-01 adapter. It is crucial the these pin headers are
-correclty aligned, otherwise they might not fit onto the adapter. I recommend to
+the PCB to the SN001-01 adapter. It is crucial that these pin headers are
+correctly aligned, otherwise they might not fit onto the adapter. I recommend to
 stick the SN001-01 adapter into a breadboard, stick the 2x12 pin headers onto
 the adapter, and finally put the PCB on the pin headers. Doing so ensures
 correct alignment, but you have to be careful not to drop solder onto the
@@ -57,14 +64,14 @@ SN001-01 adapter or the breadboard.
 Finally, solder the 2x3 pin headers onto the PCB. This is a simple and
 straightforward task.
 
-[![Solder the 2x3 Pin Headers](images/Solder_the_2x3_Pin_Headers.preview.jpg)](images/Solder_the_2x3_Pin_Headers.jpg?raw=1)
+[![Solder the 2x3 Pin Header](images/Solder_the_2x3_Pin_Header.preview.jpg)](images/Solder_the_2x3_Pin_Header.jpg?raw=1)
 
 ## Using the Adapter
 
 First, put the adapter on top of the SN001-01 adapter. Then, put both adapters
 into the TL866 ZIF socket. Put your Flash ROM into the ZIF socket of
 the adapter. __Your Flash ROM needs to be aligned to the bottom of the ZIF
-socket.
+socket!!!__.
 
 The final step is to connect a few signals which are available on the 2x3 pin
 header on the top left of the PCB to your Flash ROM by using Dupont jumper wires
@@ -73,7 +80,7 @@ Flash ROM you are using.
 
 On the right side of the 2x3 pin header are the signals RDY ("Ready",
 sometimes also called /BSY of "Busy"), /RST ("Reset"), and /WE ("Write Enable").
-These are need on all types of Flash ROMs. Locate these signals on your Flash
+These are needed on all types of Flash ROMs. Locate these signals on your Flash
 ROM, and connect them to the pin header using jumper wires.
 
 On the left side of the 2x3 pin header are the address lines A18 and A19.
@@ -127,11 +134,11 @@ dd if=Kickstart3.1.rom of=Kickstart3.1.swapped.rom conv=swab
 The diagnostic ROM already is byte swapped, so we can use it directly. Now we
 have to combine the ROMs into one single file. But there is one little problem:
 Each slot has 512 kilobytes, but the Kickstart 1.3 ROM is only 256 kilobytes.
-What you have to do is copy the Kickstart 1.3 ROM __twice__ into the final ROM
-file. To do that, I use the "cat" command like this:
+What you have to do is to copy the Kickstart 1.3 ROM __twice__ into the final
+ROM file. To create the final combined file, I use the "cat" command like this:
 
 ```
-cat Kickstart1.3.swapped Kickstart1.3.swapped Kickstart3.1.rom 16bit.bin >complete.rom
+cat Kickstart1.3.swapped Kickstart1.3.swapped Kickstart3.1.rom 16bit.bin >combined.rom
 ```
 
 This file is 512 kilobytes too small, but that does not matter.
@@ -139,15 +146,15 @@ This file is 512 kilobytes too small, but that does not matter.
 Finally, I use the "minipro" command to burn the ROM file to the flash:
 
 ```
-minipro -p "M29F160FB@TSOP48" -s -w complete.rom
+minipro -p "M29F160FB@TSOP48" -s -w combined.rom
 ```
 
 The "-p" option specifies the type of flash that if soldered on your Flash ROM.
 On my Flash ROM, it is a M29F160FB, but on your Flash ROM it might be a
-different flash chip. Have a look what is written on your flash chip, and
+different flash chip. Have a look at what is written on your flash chip, and
 adjust the "-p" option accordingly. The "-s" option tells the minipro command
 that our file does not fill the complete flash, and the "-w" option tells the
-minipro command to write the file "complete.rom" to the flash.
+minipro command to write the file "combined.rom" to the flash.
 
 ## License
 
