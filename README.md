@@ -165,7 +165,7 @@ as for the 1.3 ROM. Again, do not forget to disable "Clear Buffer"!
 [![Adapter](images/Xgpro_Load_Kick31_080000.preview.png)](images/Xgpro_Load_Kick31_080000.png?raw=1)
 
 In the third slot (addresses $100000-$17ffff) we want to write the diagnostic
-ROM. So click on "LOAD" and on "Browser" to select the diagnostic ROM file. Set
+ROM. So click on "LOAD" and on "Browse" to select the diagnostic ROM file. Set
 the buffer start address to "100000", and set all other options as for the
 previous ROMs. Do not forget to disable "Clear Buffer"!
 
