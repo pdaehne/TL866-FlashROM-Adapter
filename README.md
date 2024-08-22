@@ -115,16 +115,79 @@ bit different.
 When everything is set up correctly, you can connect the TL866 to the USB port
 of your computer and start program the flash.
 
-To program the flash, you can use the original software which came with the
-TL866, but I'm working on MacOS, so I use the opensource software "minipro".
-
 I do have a 29F160 Flash ROM for my Amiga 500, which has a capacity of 2
-megabytes or 4 slots for different Kickstart ROMs. I wanted to have the original
-Kickstart 1.3 in the first slot, Kickstart 3.1 in the second slot, the
-diagnostic ROM in the third slot, and the fourth slot unused. First of all, you
-have to byte swap the Kickstart ROMs, because the Motorola 68000 is a big endian
-machine, and the machine used for burning the flash is a little endian machine.
-To do that, we can use the "dd" command like this:
+megabytes or 4 slots of 512 kilobytes for different Kickstart ROMs. I wanted to
+have the original Kickstart 1.3 in the first slot, Kickstart 3.1 in the second
+slot, the diagnostic ROM in the third slot, and the fourth slot unused.
+
+To program the flash, you can use the original "Xgpro" software which came with
+the TL866 on Windows, or the
+[opensource software "minipro"](https://gitlab.com/DavidGriffith/minipro) on
+MacOS or Linux. In the following two sections, I will explain both ways to
+program the Flash ROM.
+
+### Using the original "Xgpro" software on Windows
+
+After starting the "Xgpro" software, you first have to select the correct
+Flash chip that is soldered on your Flash ROM. On my Flash ROM, it is a
+M29F160FB, but on your Flash ROM it might be a different flash chip. Have a
+look at what is written on your flash chip.
+
+[![Adapter](images/Xgpro_Select_Device.preview.png)](images/Xgpro_Select_Device.png?raw=1)
+
+After selecting the correct flash chip, we have to fill the data buffer with the
+data we want to write onto the flash. The data buffer by default is shown in the
+program window as 16 bit words filled with hexadecimal $FFFF, and the addresses
+shown on the left side are word addresses. Because this can be confusing, I
+recommend to switch the buffer view to "8 Bits".
+
+In the first slot (addresses $000000-$07FFFF) we want to write the Kickstart
+1.3 ROM. But there is one little problem: Each slot has 512 kilobytes, but the
+Kickstart 1.3 ROM is only 256 kilobytes. What you have to do is to copy the
+Kickstart 1.3 ROM __twice__ into the final ROM file. So in the Xgpro Software,
+click on "LOAD". In the "File load Options" dialog, click on "Browse"
+and select the Kickstart 1.3 ROM file. "File Format" must be "BINARY". The
+"Load mode" must be "Normal", "From File Start Addr(Hex)" must be "00000", and
+"TO Buffer Strat Addr(HEX)" must be "00000". "Clear Buffer when loading the
+file" must be set to "Disable". After clicking "OK", the buffer gets filled with
+Kickstart 1.3 from addresses $000000-$3FFFF. Now, click on "LOAD" again, and
+this time load the Kickstart 1.3 ROM file to buffer start address "40000". All
+other settings stay the same. Do not forget to disable "Clear Buffer"!
+
+[![Adapter](images/Xgpro_Load_Kick13_000000.preview.png)](images/Xgpro_Load_Kick13_000000.png?raw=1)
+[![Adapter](images/Xgpro_Load_Kick13_040000.preview.png)](images/Xgpro_Load_Kick13_040000.png?raw=1)
+
+In the second slot (addresses $080000-$0fffff) we want to write the Kickstart
+3.1 ROM. So click on "LOAD" again and click on "Browse" to select the Kickstart
+3.1 ROM file. Set the buffer start address to "80000", and set all other options
+as for the 1.3 ROM. Again, do not forget to disable "Clear Buffer"!
+
+[![Adapter](images/Xgpro_Load_Kick31_080000.preview.png)](images/Xgpro_Load_Kick31_080000.png?raw=1)
+
+In the third slot (addresses $100000-$17ffff) we want to write the diagnostic
+ROM. So click on "LOAD" and on "Browser" to select the diagnostic ROM file. Set
+the buffer start address to "100000", and set all other options as for the
+previous ROMs. Do not forget to disable "Clear Buffer"!
+
+[![Adapter](images/Xgpro_Load_Diag_100000.preview.png)](images/Xgpro_Load_Diag_100000.png?raw=1)
+
+Now we are almost finished, but there is one more important step to do: We have
+to swap the bytes of the two Kickstart ROMs because the Motorola 68000 is a big
+endian machine, and the machine used for burning the flash is a little endian
+machine. The diagnostic ROM already is byte swapped! Click on the menu entry
+"File(F)/Fill Block/Swap(F)". In the "Fill block" dialog, make sure
+"Stard_Addr: 0x" is set to "00000000", and set "End_Addr: 0x" to "000fffff".
+Under "Swap Byte or Word", select "16Bits" and click on the "Swap" button.
+
+[![Adapter](images/Xgpro_Swap.preview.png)](images/Xgpro_Swap.png?raw=1)
+
+Now we are finally ready to program the flash chip!
+
+### Using the opensource software "minipro" on MacOS and Linux
+
+First of all, you have to byte swap the Kickstart ROMs, because the Motorola
+68000 is a big endian machine, and the machine used for burning the flash is a
+little endian machine. To do that, we can use the "dd" command like this:
 
 ```
 dd if=Kickstart1.3.rom of=Kickstart1.3.swapped.rom conv=swab
@@ -138,7 +201,7 @@ What you have to do is to copy the Kickstart 1.3 ROM __twice__ into the final
 ROM file. To create the final combined file, I use the "cat" command like this:
 
 ```
-cat Kickstart1.3.swapped Kickstart1.3.swapped Kickstart3.1.rom 16bit.bin >combined.rom
+cat Kickstart1.3.swapped.rom Kickstart1.3.swapped.rom Kickstart3.1.swapped.rom 16bit.bin >combined.rom
 ```
 
 This file is 512 kilobytes too small, but that does not matter.
