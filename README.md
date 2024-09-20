@@ -78,6 +78,8 @@ header on the top left of the PCB to your Flash ROM by using Dupont jumper wires
 like the ones used for breadboards. This depends a little bit on the type of
 Flash ROM you are using.
 
+[![Pin Assignment](images/Pin_Assignment.preview.jpg)](images/Pin_Assignment.jpg?raw=1)
+
 On the right side of the 2x3 pin header are the signals RDY ("Ready",
 sometimes also called /BSY of "Busy"), /RST ("Reset"), and /WE ("Write Enable").
 These are needed on all types of Flash ROMs. Locate these signals on your Flash
