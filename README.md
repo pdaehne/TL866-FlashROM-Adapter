@@ -4,16 +4,16 @@
 
 This repository contains the KiCad project and Gerber files for a TL866
 Programming Adapter for 29F400/29F800/29F160 Flash ROMs which are used to
-replace 29C400/29C800/29C160 EPROMs on retro machines like the Amiga.
+replace 29C400/29C800/29C160 EPROMs in retro machines like the Amiga.
 
 > [!IMPORTANT]
-> Besides this adapter, you also need the SN001-01 adapter which came with your
-> TL866 or which is sold separately.
+> Besides this adapter, you also need the SN001-1 TSOP48 adapter which came with your
+> TL866 or which is sold separately!
 
 > [!WARNING]
 > I use this adapter with my TL866 II plus. I do not know if it works with the
 > older TL866 A or CS, but it probably does. It does __not__ work with the newer
-> Xgecu T48 aka TL866-3G or the Xgecu T56 programmers.
+> Xgecu T48 aka TL866-3G or the Xgecu T56 programmers!
 
 ## Ordering the PCB
 
@@ -27,11 +27,22 @@ page.
 
 * __1x ZIF Socket 48 Pins 2.54mm pitch__
 
-* __2x 2x12 Female Pin Header Through Hole Straight Angle 2.54mm pitch__
+  This is where you put the Flash ROM into.
+
+* __2x 2x12 Female Pin Sockets Through Hole Straight Angle 2.54mm pitch__
+
+  Used to connect this adapter to the SN-001-01 adapter.
 
 * __1x 2x3 Male Pin Header Through Hole Straight Angle 2.54mm pitch__
 
-* Dupont Jumper cables depending on your type of Flash ROM.
+  There are some signals on this pin header that you need to connect to your
+  Flash ROM.
+
+* __Dupont Jumper cables depending on your type of Flash ROM__
+
+  These are used to connect the signals on the pin header to your Flash ROM.
+  This depends on your type of Flash ROM. For my Flash ROM, five short
+  female-to-female jumper cables are needed.
 
 ### Soldering the ZIF Socket
 
@@ -39,8 +50,8 @@ Insert the ZIF socket into the PCB. This can be a little bit fiddly, because the
 quality of the cheap ZIF sockets from Aliexpress is quite low, the pins are
 usually bend and the holes in the PCB are small. You might have to use pliers to
 bend the pins in shape, but do not bend to much, otherwise the parts on the top
-side of the ZIF socket might start moving and getting out of alignment. Solder
-the socket from the bottom side.
+side of the ZIF socket might start moving and get out of alignment. Solder the
+socket from the bottom side.
 
 [![Solder the ZIF socket](images/Solder_ZIF_Socket_top.preview.jpg)](images/Solder_ZIF_Socket_top.jpg?raw=1)
 [![Solder the ZIF socket](images/Solder_ZIF_Socket_bottom.preview.jpg)](images/Solder_ZIF_Socket_bottom.jpg?raw=1)
@@ -48,12 +59,12 @@ the socket from the bottom side.
 ### Soldering the Connection to the SN001-1 Adapter
 
 Next, solder the two 2x12 pin headers to the underside of the PCB which connect
-the PCB to the SN001-01 adapter. It is crucial that these pin headers are
+the PCB to the SN001-1 adapter. It is crucial that these pin headers are
 correctly aligned, otherwise they might not fit onto the adapter. I recommend to
-stick the SN001-01 adapter into a breadboard, stick the 2x12 pin headers onto
+stick the SN001-1 adapter into a breadboard, stick the 2x12 pin headers onto
 the adapter, and finally put the PCB on the pin headers. Doing so ensures
 correct alignment, but you have to be careful not to drop solder onto the
-SN001-01 adapter or the breadboard.
+SN001-1 adapter or the breadboard.
 
 [![Adapter on Breadboard](images/Adapter_on_Breadboard.preview.jpg)](images/Adapter_on_Breadboard.jpg?raw=1)
 [![Adapter on Breadboard with Pin Headers](images/Adapter_on_Breadboard_with_Pin_Headers.preview.jpg)](images/Adapter_on_Breadboard_with_Pin_Headers.jpg?raw=1)
@@ -68,10 +79,12 @@ straightforward task.
 
 ## Using the Adapter
 
-First, put the adapter on top of the SN001-01 adapter. Then, put both adapters
+First, put the adapter on top of the SN001-1 adapter. Then, put both adapters
 into the TL866 ZIF socket. Put your Flash ROM into the ZIF socket of
 the adapter. __Your Flash ROM needs to be aligned to the bottom of the ZIF
 socket!!!__.
+
+[![Alignment](images/Alignment.preview.jpg)](images/Alignment.jpg?raw=1)
 
 The final step is to connect a few signals which are available on the 2x3 pin
 header on the top left of the PCB to your Flash ROM by using Dupont jumper wires
@@ -81,7 +94,7 @@ Flash ROM you are using.
 [![Pin Assignment](images/Pin_Assignment.preview.jpg)](images/Pin_Assignment.jpg?raw=1)
 
 On the right side of the 2x3 pin header are the signals RDY ("Ready",
-sometimes also called /BSY of "Busy"), /RST ("Reset"), and /WE ("Write Enable").
+sometimes also called /BSY or "Busy"), /RST ("Reset"), and /WE ("Write Enable").
 These are needed on all types of Flash ROMs. Locate these signals on your Flash
 ROM, and connect them to the pin header using jumper wires.
 
@@ -115,12 +128,13 @@ bit different.
 [![Adapter](images/Adapter.preview.jpg)](images/Adapter.jpg?raw=1)
 
 When everything is set up correctly, you can connect the TL866 to the USB port
-of your computer and start program the flash.
+of your computer and start programming the flash.
 
 I do have a 29F160 Flash ROM for my Amiga 500, which has a capacity of 2
 megabytes or 4 slots of 512 kilobytes for different Kickstart ROMs. I wanted to
 have the original Kickstart 1.3 in the first slot, Kickstart 3.1 in the second
-slot, the diagnostic ROM in the third slot, and the fourth slot unused.
+slot, the [Diagnostic ROM](https://www.diagrom.com/) in the third slot, and the
+fourth slot unused.
 
 To program the flash, you can use the original "Xgpro" software which came with
 the TL866 on Windows, or the
