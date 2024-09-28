@@ -77,6 +77,38 @@ straightforward task.
 
 [![Solder the 2x3 Pin Header](images/Solder_the_2x3_Pin_Header.preview.jpg)](images/Solder_the_2x3_Pin_Header.jpg?raw=1)
 
+## Where to get a Flash ROM
+
+You can use the following projects to order PCBs for the Flash ROM, but keep in
+mind that the flash chips are SMD parts (TSOP48) which are not easy to solder:
+
+* A KiCad Project:
+
+  https://gitlab.com/rwahler1/kicad/Amiga_27C400_Emulator2/
+
+* Another project (Gerbers only):
+
+  https://github.com/OlegMishin/FlashROM/
+
+* A PCBWay Shared Project:
+
+  https://www.pcbway.com/project/shareproject/Amiga_Flash_ROM_Adapter.html
+
+You can also buy pre-built Flash ROMs, e.g. from the following shops (I do
+not have any affiliation with these shops):
+
+* Alinea (Germany):
+
+  https://www.amiga-shop.net/Amiga-Hardware/Amiga-Kabel-Adapter/KickRom-Flash-4-fach-Flash-Rom-Adapter-27C400-Emulator::1305.html
+
+* AMIGAstore.eu (Spain)
+
+  https://amigastore.eu/en/826-dual-kickstart-rom-flash-adapter-switcher-.html
+
+* Retro Rewind (Canada)
+
+  https://retrorewind.ca/amiga-flashrom-8mbit
+
 ## Using the Adapter
 
 First, put the adapter on top of the SN001-1 adapter. Then, put both adapters
