@@ -19,7 +19,7 @@ replace 29C400/29C800/29C160 EPROMs in retro machines like the Amiga.
 
 The subdirectory "gerber-files" contains a Zip file you can use to order the PCB
 from PCB manufacturers like PCBWay or JLCPCB. Simply upload the Zip on their web
-page.
+page. I recommend to use the standard PCB thickness of 1.6mm and HASL finishing.
 
 ## Building the Adapter
 
@@ -260,7 +260,7 @@ Finally, I use the "minipro" command to burn the ROM file to the flash:
 minipro -p "M29F160FB@TSOP48" -s -w combined.rom
 ```
 
-The "-p" option specifies the type of flash that if soldered on your Flash ROM.
+The "-p" option specifies the type of flash that is soldered on your Flash ROM.
 On my Flash ROM, it is a M29F160FB, but on your Flash ROM it might be a
 different flash chip. Have a look at what is written on your flash chip, and
 adjust the "-p" option accordingly. The "-s" option tells the minipro command
